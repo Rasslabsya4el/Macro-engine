@@ -1,0 +1,23 @@
+{
+  "bind": {
+    "button": "mmb",
+    "window": "chrome"
+  },
+  "settings": {
+    "mode": "press",
+    "repeat": 1
+  },
+  "actions": [
+    {"action": "press", "key": "6"},
+    {"action": "delay", "ms": 15},
+    {"action": "press", "key": "7"},
+    {"action": "delay", "ms": 15},
+    {"action": "release", "key": "6"},
+    {"action": "delay", "ms": 15},
+    {"action": "press", "key": "8"},
+    {"action": "delay", "ms": 15},
+    {"action": "release", "key": "7"},
+    {"action": "delay", "ms": 15},
+    {"action": "release", "key": "8"}
+  ]
+}

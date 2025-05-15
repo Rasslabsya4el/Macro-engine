@@ -1,0 +1,23 @@
+{
+  "bind": {
+    "hotkey": ["lmb", "scroll_down"],
+    "window": "youtube"
+  },
+  "settings": {
+    "mode": "press",
+    "repeat": 1
+  },
+  "actions": [
+      {"action": "press", "key": "f5"},
+    {"action": "delay", "ms": 15},
+    {"action": "release", "key": "f5"},
+    {"action": "scroll", "clicks": 100}
+
+
+
+    
+
+
+
+  ]
+}

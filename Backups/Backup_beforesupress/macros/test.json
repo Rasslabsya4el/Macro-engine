@@ -1,0 +1,15 @@
+{
+  "bind": {
+    "button": "z",
+    "window": "chrome"
+  },
+  "settings": {
+    "mode": "press",
+    "repeat": 1
+  },
+  "actions": [
+    {"action": "press", "key": "1"},
+    {"action": "delay", "ms": 15},
+    {"action": "release", "key": "1"}
+  ]
+}

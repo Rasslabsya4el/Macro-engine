@@ -1,0 +1,22 @@
+{
+  "bind": {
+    "button": "x1",
+    "window": "chrome"
+  },
+  "settings": {
+    "mode": "press",
+    "repeat": 1
+  },
+  "actions": [
+    {"action": "press", "key": "left_arrow"},
+    {"action": "release", "key": "left_arrow"}
+
+
+
+
+    
+
+
+
+  ]
+}

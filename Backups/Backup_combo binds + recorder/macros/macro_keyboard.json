@@ -1,0 +1,15 @@
+{
+  "bind": {
+    "button": "f",
+    "window": "chrome"
+  },
+  "settings": {
+    "mode": "press",
+    "repeat": 1
+  },
+  "actions": [
+    {"action": "press", "key": "h"},
+    {"action": "delay", "ms": 15},
+    {"action": "release", "key": "h"}
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "bind": {
+  "hotkey": ["mmb"],
+  "window": "chrome"
+},
+  "settings": {
+    "mode": "loop",
+    "repeat": 1
+  },
+  "actions": [
+  {"action": "type", "text": "Hello, world!"}
+  ]
+}
