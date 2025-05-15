@@ -217,15 +217,12 @@ This means you **cannot** bind macros separately to left/right versions.
 ## Project Structure
 
 ```
-/Backups/              - Legacy macro versions and test setups
-/suppress tests/       - Suppression experiments
 vk_map.json            - Internal VK mappings
 main.py                - Macro player
 recorder.py            - Macro recorder
 logic.py               - Core macro logic
 hook_listener.py       - Low-level input hook manager
 README.md              - This documentation
-.gitignore             - Git exclusions
 ```
 
 ---
