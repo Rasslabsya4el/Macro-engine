@@ -1,0 +1,24 @@
+# Python bytecode
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# VS Code / PyCharm
+.vscode/
+.idea/
+
+# System
+.DS_Store
+Thumbs.db
+
+# Log files
+*.log
+
+# Backup folders
+Backups/
+backup*/
+Backup*/
+
+# Test folders
+suppress tests/
