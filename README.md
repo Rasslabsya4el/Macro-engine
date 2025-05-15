@@ -147,7 +147,7 @@ All key names must match **PyAutoGUI’s** syntax. See [official docs](https://p
 
 <details>
 <summary>Click to expand full supported key list</summary>
-
+```json
 '!', '"', '#', '$', '%', '&', "'", '(', ')', '*', '+', ',', '-', '.', '/',
 '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
 ':', ';', '<', '=', '>', '?', '@', '[', '\\', ']', '^', '_', '`',
@@ -178,7 +178,7 @@ All key names must match **PyAutoGUI’s** syntax. See [official docs](https://p
 'sleep', 'space', 'stop', 'subtract', 'tab',
 'up', 'volumedown', 'volumemute', 'volumeup',
 'win', 'winleft', 'winright', 'yen'
-
+```
 
 </details>
 
