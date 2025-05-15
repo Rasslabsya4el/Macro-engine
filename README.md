@@ -1,16 +1,15 @@
 # Macro Engine
 
-A universal Python-based macro engine for executing and recording keyboard/mouse macros with full support for combos, delays, modes, and hotkey bindings.
+A universal Python-based macro engine for executing and recording keyboard/mouse macros with support for combos, delays, execution modes, and per-window targeting.
 
 ## Features
 
-- Live macro recording with custom settings
-- Supports keyboard and mouse events (incl. X1/X2)
-- VK code auto-mapping from human-readable names
-- Modes: press / release / hold / loop (with repeat count)
-- Macros stored as editable JSON files
-- Per-window targeting (e.g. bind only in Chrome)
-- Modular design for future expansion
+- Live macro recording with customizable prompts
+- Execution of keyboard and mouse actions, including X1/X2 buttons
+- Modes: press / release / hold / loop
+- Per-window targeting (binds apply only when specific window is active)
+- Editable JSON macros with readable key/button names
+- Modular architecture for future extension
 
 ## Getting Started
 
@@ -22,17 +21,17 @@ pip install -r requirements.txt  # if needed
 
 ## Usage
 
-### Running macro player:
+### Run macro player:
 ```bash
 python main.py
 ```
 
-### Running macro recorder:
+### Run macro recorder:
 ```bash
 python recorder.py
 ```
 
-During recording, the following inputs will be requested:
+During recording, you will be prompted for:
 
 ```python
 macro_name   = input("Enter macro file name (without extension): ")
@@ -48,10 +47,12 @@ delay_input  = input("Enter delay mode (number / blank for 15 / 'real'): ")
 ```
 /macros              - JSON macros (editable by hand)
 /modules             - Core modules (input, logic, etc.)
-vk_map.json          - Key name to VK-code mapping
-main.py              - Macro player
-recorder.py          - Macro recorder
-spec_macro_format.txt- Macro JSON format description
+vk_map.json          - VK code mapping (used internally)
+/Backups             - Legacy and backup versions
+main.py              - Macro player entry point
+recorder.py          - Macro recorder script
+.gitignore           - Git exclusions
+README.md            - This file
 ```
 
 ## Example Macro
@@ -74,16 +75,84 @@ spec_macro_format.txt- Macro JSON format description
 }
 ```
 
+## Macro Format Reference
+
+Each macro is stored as a JSON file with the following structure:
+
+```json
+{
+  "bind": { ... },
+  "settings": { ... },
+  "actions": [ ... ]
+}
+```
+
+### `bind` (macro trigger)
+
+| Field     | Type     | Example             | Description                          |
+|-----------|----------|---------------------|--------------------------------------|
+| `key`     | string   | `"f"`               | Keyboard key                         |
+| `hotkey`  | array    | `["ctrl", "g"]`     | Key combination (alternative)        |
+| `window`  | string   | `"chrome"`          | Applies only to matching window title |
+
+### `settings`
+
+| Field     | Type     | Example             | Description                          |
+|-----------|----------|---------------------|--------------------------------------|
+| `mode`    | string   | `"press"`           | `press`, `release`, `hold`, or `loop` |
+| `repeat`  | number   | `1`, `5`            | Repetition count (ignored in `loop`)  |
+
+### `actions` (macro body)
+
+Each action is an object like this:
+
+```json
+{ "action": "type", ...additional parameters... }
+```
+
+Supported action types:
+
+| Action     | Example                                                             |
+|------------|---------------------------------------------------------------------|
+| `press`    | `{"action": "press", "key": "z"}`                                   |
+| `release`  | `{"action": "release", "key": "z"}`                                 |
+| `delay`    | `{"action": "delay", "ms": 15}`                                     |
+| `move`     | `{"action": "move", "x": 800, "y": 400, "duration": 0}`            |
+| `click`    | `{"action": "click", "button": "lmb"}`                              |
+| `mousedown`| `{"action": "mousedown", "button": "rmb"}`                          |
+| `mouseup`  | `{"action": "mouseup", "button": "rmb"}`                            |
+| `scroll`   | `{"action": "scroll", "clicks": 300}`                               |
+| `type`     | `{"action": "type", "text": "Hello, world!"}`                       |
+| `hotkey`   | `{"action": "hotkey", "keys": ["ctrl", "c"]}`                       |
+
+### Loop Mode
+
+If `mode` is set to `"loop"`:
+- The macro runs infinitely until the hotkey is pressed again
+- The `repeat` setting is ignored
+- A 15ms delay is automatically added between iterations
+
+```json
+{
+  "settings": {
+    "mode": "loop"
+  }
+}
+```
+
+### Notes
+
+- Only readable key/button names are used in macros
+- VK codes are assigned automatically at runtime using `vk_map.json`
+- Mouse buttons: `"lmb"`, `"rmb"`, `"mmb"`, `"x1"`, `"x2"`
+- `duration` in `move` is in seconds
+
 ## TODO
 
-- [ ] Suppression of original input
-- [ ] GUI editor for macros
-- [ ] Conditional actions and variables
-- [ ] Profile system for multiple macro sets
-
-## Feedback
-
-Open an issue or fork and contribute.
+- [ ] Suppression of native inputs
+- [ ] GUI macro editor
+- [ ] Conditional logic support
+- [ ] Macro profiles
 
 ## License
 
