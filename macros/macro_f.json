@@ -1,7 +1,7 @@
 {
   "bind": {
-    "button": "mmb",
-    "window": "chrome"
+    "button": "x",
+    "window": ""
   },
   "settings": {
     "mode": "press",

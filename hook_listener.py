@@ -22,6 +22,7 @@ WM_KEYDOWN = 0x0100
 WM_LBUTTONDOWN = 0x0201
 WM_RBUTTONDOWN = 0x0204
 WM_MBUTTONDOWN = 0x0207
+WM_XBUTTONUP = 0x020C
 WM_XBUTTONDOWN = 0x020B
 
 LLKHF_INJECTED = 0x10
@@ -56,7 +57,7 @@ def load_macros():
     global macros
     macros.clear()
 
-    print("[DEBUG] Loading macros...")
+    # print("[DEBUG] Loading macros...")
     for filename in os.listdir("macros"):
         if filename.endswith(".json"):
             try:
@@ -66,15 +67,15 @@ def load_macros():
                     btn = bind.get("button")
                     if btn:
                         vk = VK_MAP.get(btn.lower())
-                        print(f"[DEBUG] Binding macro: {btn.lower()} → VK={vk} from {filename}")
+                        # print(f"[DEBUG] Binding macro: {btn.lower()} → VK={vk} from {filename}")
                         bind["button_vk"] = vk
                         for action in data.get("actions", []):
                             key = action.get("key")
                             if key:
                                 action["key_vk"] = VK_MAP.get(key.lower())
-                        print(f"[DEBUG] Loaded macro {filename}: {btn} → VK {vk}")
+                        # print(f"[DEBUG] Loaded macro {filename}: {btn} → VK {vk}")
                     macros.append(data)
-                    print(f"[DEBUG] Appended macro for VK={vk}: {data['bind']}")
+                    # print(f"[DEBUG] Appended macro for VK={vk}: {data['bind']}")
 
             except Exception as e:
                 print(f"[ERROR] Failed to load macro {filename}: {e}")
@@ -157,17 +158,25 @@ def mouse_proc(nCode, wParam, lParam):
             vk = 2
         elif wParam == WM_MBUTTONDOWN:
             vk = 3
-        elif wParam == WM_XBUTTONDOWN:
+        elif wParam in (WM_XBUTTONDOWN, WM_XBUTTONUP):
             x_id = (ms.mouseData >> 16) & 0xFFFF
             if x_id == 1:
                 vk = 4
-                print("[XBUTTON] X1 clicked")
+                print(f"[XBUTTON] X1 {'down' if wParam == WM_XBUTTONDOWN else 'up'}")
             elif x_id == 2:
                 vk = 5
-                print("[XBUTTON] X2 clicked")
+                print(f"[XBUTTON] X2 {'down' if wParam == WM_XBUTTONDOWN else 'up'}")
             else:
                 print(f"[XBUTTON] Unknown x_id={x_id}")
                 return user32.CallNextHookEx(None, nCode, wParam, ctypes.cast(lParam, ctypes.c_void_p))
+
+            # suppress both down and up
+            if wParam == WM_XBUTTONDOWN:
+                macro = match_macro(vk)
+                if macro:
+                    print(f"[SUPPRESS] Mouse VK={vk} matched. Suppressing and launching macro.")
+                    threading.Thread(target=run_macro, args=(macro["actions"],), daemon=True).start()
+            return 1  # suppress X1/X2 regardless
 
         if vk is not None:
             print(f"[MOUSE] VK={vk} event={hex(wParam)}")
@@ -175,7 +184,7 @@ def mouse_proc(nCode, wParam, lParam):
             if macro:
                 print(f"[SUPPRESS] Mouse VK={vk} matched. Suppressing and launching macro.")
                 threading.Thread(target=run_macro, args=(macro["actions"],), daemon=True).start()
-                return 1  # ← suppress только если действительно запускали макрос
+                return 1
             else:
                 print(f"[MOUSE] No macro matched for VK={vk}, x_id={x_id}")
 
@@ -223,11 +232,19 @@ def listen_forever():
 
         
         msg = ctypes.wintypes.MSG()
+        last_macro_reload = time.time()
+
         while True:
             while user32.PeekMessageW(ctypes.byref(msg), None, 0, 0, 1):
                 user32.TranslateMessage(ctypes.byref(msg))
                 user32.DispatchMessageW(ctypes.byref(msg))
+
+            if time.time() - last_macro_reload > 1.0:
+                load_macros()
+                last_macro_reload = time.time()
+
             time.sleep(0.01)
+
     except Exception as e:
         print(f"[FATAL ERROR] Listener crashed: {e}")
         traceback.print_exc()

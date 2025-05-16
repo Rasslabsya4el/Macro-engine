@@ -1,15 +1,15 @@
 {
   "bind": {
     "button": "x2",
-    "window": "chrome"
+    "window": "youtube"
   },
   "settings": {
     "mode": "press",
     "repeat": 1
   },
   "actions": [
-    {"action": "press", "key": "right_arrow"},
-    {"action": "release", "key": "right_arrow"}
+    {"action": "press", "key": "left_arrow"},
+    {"action": "release", "key": "left_arrow"}
 
 
 
