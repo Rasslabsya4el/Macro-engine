@@ -18,8 +18,8 @@ A universal Python-based macro engine for executing and recording keyboard/mouse
 ## Getting Started
 
 ```bash
-git clone https://github.com/Rasslabsya4el/Script.git
-cd Script
+git clone https://github.com/Rasslabsya4el/Macro-engine.git
+cd Macro-engine
 pip install -r requirements.txt  # if needed
 ```
 

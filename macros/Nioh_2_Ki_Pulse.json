@@ -1,0 +1,27 @@
+{
+  "bind": {
+  "button": "z",
+  "window": "Nioh"
+},
+  "settings": {
+    "mode": "press",
+    "repeat": 1
+  },
+  "actions": [
+  {"action": "delay", "ms": 150},
+  {"action": "press", "key": "k"},
+  {"action": "delay", "ms": 150},
+  {"action": "release", "key": "k"},
+  {"action": "delay", "ms": 150},
+  {"action": "press", "key": "2"},
+  {"action": "delay", "ms": 150},
+  {"action": "release", "key": "2"},
+  {"action": "delay", "ms": 150},
+  {"action": "press", "key": "3"},
+  {"action": "delay", "ms": 150},
+  {"action": "release", "key": "3"}
+
+
+
+  ]
+}

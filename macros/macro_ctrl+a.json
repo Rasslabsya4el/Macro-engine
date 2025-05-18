@@ -1,10 +1,10 @@
 {
   "bind": {
-  "hotkey": ["mmb"],
+  "button": "x",
   "window": "chrome"
 },
   "settings": {
-    "mode": "loop",
+    "mode": "press",
     "repeat": 1
   },
   "actions": [
